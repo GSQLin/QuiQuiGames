@@ -1,0 +1,10 @@
+name: QuiQuiGames
+version: '${project.version}'
+main: me.gsqlin.qiuqiugames.QiuQiuGames
+api-version: 1.13
+description: 钢丝球本球无聊整的小游戏
+prefix: §3QuiQui§bGam§res
+commands:
+  quiquigames:
+    aliases: [quigames,quiquig,quigame,qgame,qqgame]
+    description: 主命令
