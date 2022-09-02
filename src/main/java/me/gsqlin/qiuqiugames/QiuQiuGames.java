@@ -1,6 +1,6 @@
 package me.gsqlin.qiuqiugames;
 
-import me.gsqlin.qiuqiugames.Listener.ClickGame1;
+import me.gsqlin.qiuqiugames.Listener.Game1Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class QiuQiuGames extends JavaPlugin {
@@ -25,7 +25,7 @@ public final class QiuQiuGames extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getCommand("quiquigames").setExecutor(new CMD());
-        getServer().getPluginManager().registerEvents(new ClickGame1(), this);
+        getServer().getPluginManager().registerEvents(new Game1Event(), this);
         getLogger().info("§3插件已载入~");
     }
 

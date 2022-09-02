@@ -8,16 +8,27 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Game1 extends InvHub {
+    Plugin plugin = me.gsqlin.qiuqiugames.QiuQiuGames.getPlugin(me.gsqlin.qiuqiugames.QiuQiuGames.class);
     public static List<Integer> allint = new ArrayList<>();
     public static Integer[] ClickSlot = new Integer[]{3,4,5,12,13,14,21,22,23};
+    public Player player;
 
-    public Game1(Inventory inv) {
+    //用于玩家关闭的那一瞬间看是不是时间到了(再计时器中写入修改这个参数为true)
+    public boolean invalid = false;
+
+    //用来整理是玩家关闭的容器还是插件给玩家换界面的时候的
+    //默认true,如果是插件操作关闭的话就改成false执行后会重新打开,再事件里面弄一个打开后默认把这个调整会true
+    public boolean isplayerclose = true;
+
+    public Game1(Inventory inv,Player player) {
         super(inv,me.gsqlin.qiuqiugames.GuiHub.Game1.class);
         inv = this.getInventory();
 
@@ -33,6 +44,7 @@ public class Game1 extends InvHub {
                 inv.setItem(i,notCanClickItem());
             }
         }
+        this.player = player;
     }
 
     public Integer random3x3Int(List<Integer> i) {
@@ -75,5 +87,25 @@ public class Game1 extends InvHub {
             }
         }
         return mubiao.get((int)(Math.random()*mubiao.size()));
+    }
+
+    //获取积分
+    public Integer getPoint(){
+        return Integer.valueOf(this.getInventory().getTitle());
+    }
+
+    public void EndGame(Boolean guo, BukkitRunnable... runnables){
+        this.isplayerclose = false;
+        if (runnables != null) {
+            if (runnables.length > 0) {
+                for (BukkitRunnable runnable : runnables) {
+                    runnable.runTask(plugin);
+                }
+            }
+        }
+        //如果guo是true就执行这里面的一下操作,如果不就不执行
+        if (!guo) return;
+        this.player.closeInventory();
+        this.player.sendMessage("§3游戏结束了");
     }
 }
