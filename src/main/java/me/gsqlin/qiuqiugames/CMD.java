@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -27,7 +28,10 @@ public class CMD implements CommandExecutor {
                 Game1 game1 = new Game1(Bukkit.createInventory(player,3*9,"0"),player);
                 player.openInventory(game1.getInventory());
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,()->{
-                    Game1 NowGame1 = (Game1) Bukkit.getPlayer(player.getUniqueId()).getOpenInventory().getTopInventory().getHolder();
+                    Inventory pinv = Bukkit.getPlayer(player.getUniqueId()).getOpenInventory().getTopInventory();
+                    //如果玩家没有界面就不做别的操作了,没有界面就证明是玩家自己已经手动退出
+                    if (pinv == null) return;
+                    Game1 NowGame1 = (Game1) pinv.getHolder();
                     NowGame1.EndGame(true,new BukkitRunnable() {
                         @Override
                         public void run() {

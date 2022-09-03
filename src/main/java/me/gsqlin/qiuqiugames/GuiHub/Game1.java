@@ -44,6 +44,8 @@ public class Game1 extends InvHub {
                 inv.setItem(i,notCanClickItem());
             }
         }
+        //单独设置别的物品
+        inv.setItem(26,quitButtonItem());
         this.player = player;
     }
 
@@ -62,7 +64,7 @@ public class Game1 extends InvHub {
         return mubiao.get((int)(Math.random()*mubiao.size()));
     }
     public ItemStack canClickItem(){
-        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE,1, (short) 3);
+        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE,1, (short) 14);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName("§3点我");
         item.setItemMeta(itemMeta);
@@ -72,6 +74,13 @@ public class Game1 extends InvHub {
         ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE,1, (short) 15);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName("§7空白处");
+        item.setItemMeta(itemMeta);
+        return item;
+    }
+    public ItemStack quitButtonItem(){
+        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE,1, (short) 1);
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName("§c退出");
         item.setItemMeta(itemMeta);
         return item;
     }

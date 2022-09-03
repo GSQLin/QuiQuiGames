@@ -12,17 +12,19 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Game1Event implements Listener {
     Plugin plugin = me.gsqlin.qiuqiugames.QiuQiuGames.getPlugin(me.gsqlin.qiuqiugames.QiuQiuGames.class);
 
-    //实际上多个事件可以写一起的 列如
     /*
-    @EventHandler
-    public void on第二个事件(PlayerMoveEvent e){
-        e.getPlayer().sendMessage("你移动了");
-    }
-    */
+    实际上多个事件可以写一起的 列如
+
+@EventHandler
+public void on第二个事件(PlayerMoveEvent e){
+    e.getPlayer().sendMessage("你移动了");
+}
+*/
     @EventHandler
     public void onOpen(InventoryOpenEvent e){
         if (e.getPlayer() instanceof Player){
@@ -76,6 +78,14 @@ public class Game1Event implements Listener {
                 p.closeInventory();
 */
                 p.openInventory(game1.getInventory());
+                return;
+            }else if (game1.quitButtonItem().equals(e.getCurrentItem())){
+                game1.EndGame(true, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        p.sendMessage("§3你手动退出了,分数不会结算");
+                    }
+                });
                 return;
             }
             p.playSound(p.getLocation(), Sound.BLOCK_STONE_BREAK,1.0F,1.0F);
